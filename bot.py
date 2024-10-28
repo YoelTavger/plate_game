@@ -8,12 +8,6 @@ def setup_bot():
     application.add_handler(CommandHandler("start", start))
     
     application.add_handler(MessageHandler(filters.PHOTO, handle_message))
-    
-    # נוסיף פקודות נוספות לטופ מצטיינים
-    application.add_handler(CommandHandler("מצטיין_יומי", send_top_players, period=1))
-    application.add_handler(CommandHandler("מצטיין_שבועי", send_top_players, period=7))
-    application.add_handler(CommandHandler("מצטיין_חודשי", send_top_players, period=30))
-    application.add_handler(CommandHandler("מצטיין_כללי", send_top_players, period="all"))
 
     return application
 
