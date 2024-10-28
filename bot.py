@@ -7,7 +7,7 @@ def setup_bot():
 
     application.add_handler(CommandHandler("start", start))
     
-    application.add_handler(MessageHandler(filters.PHOTO | filters.VOICE, handle_message))
+    application.add_handler(MessageHandler(filters.PHOTO, handle_message))
 
     return application
 

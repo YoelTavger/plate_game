@@ -13,4 +13,4 @@ def get_webhook_url():
         return os.getenv("WEBHOOK_URL_DEV")
 
 WEBHOOK_URL = get_webhook_url()
-PORT = os.getenv("PORT")
+PORT = int(os.getenv("PORT", 8443))

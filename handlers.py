@@ -1,7 +1,6 @@
 import random
 import time
-from telegram import Update
-from telegram.constants import ChatAction
+from telegram import Update, ChatAction
 from telegram.ext import Application, CommandHandler, MessageHandler, ContextTypes, filters
 
 compliments = [
@@ -27,10 +26,12 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(random_compliment)
     
     # שליחת הודעת טעינה
-    loading_message = await update.message.reply_text("טוען מספר רנדומלי...")
+    loading_message = await update.message.reply_dice(emoji=random.choice(['🎲', '🎯', '🎰']))
+
+
     
     # המתנה של 2 שניות
-    time.sleep(2)
+    await asyncio.sleep(2)
     
     # יצירת מספר רנדומלי מפורמט
     random_number = random.randint(0, 999)
