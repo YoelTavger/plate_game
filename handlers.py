@@ -30,7 +30,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     loading_message = await update.message.reply_text("טוען מספר רנדומלי...")
     
     # המתנה של 2 שניות
-    await asyncio.sleep(2)
+    await time.sleep(2)
     
     # יצירת מספר רנדומלי מפורמט
     random_number = random.randint(0, 999)
