@@ -26,8 +26,8 @@ async def handle_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(random_compliment)
     
     # שליחת הודעת טעינה
-    loading_message = await update.message.reply_text("טוען מספר רנדומלי...")
-    loading_message = await update.message.reply_text(emoji=random.choice(['🎲', '🎯', '🎰']))
+    loading_message = await update.message.reply_dice(emoji=random.choice(['🎲', '🎯', '🎰']))
+
 
     
     # המתנה של 2 שניות
