@@ -1,6 +1,7 @@
 import random
 import time
-from telegram import Update
+from telegram import Update, ChatAction
+from telegram.ext import Application, CommandHandler, MessageHandler, ContextTypes, filters
 
 compliments = [
     "יפה מאוד!",
@@ -10,35 +11,32 @@ compliments = [
     "תמונה מדהימה!"
 ]
 
-bot = telebot.TeleBot(API_TOKEN)
-
-def start(update: Update):
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
     await update.message.reply_html(
         f"ברוך הבא, {user.full_name}!\n\n"
     )
 
-def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user_id = update.effective_user.id
-    
+async def handle_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    # שליחת פעולת הקלדה
     await context.bot.send_chat_action(chat_id=update.effective_chat.id, action=ChatAction.TYPING)
-
-
-def format_number(number):
-    formatted_number = str(number).zfill(3)
-    return formatted_number
-
-@bot.message_handler(content_types=['photo'])
-def send_random_compliment_and_number(message):
+    
+    # שליחת מחמאה רנדומלית
     random_compliment = random.choice(compliments)
-    bot.reply_to(message, random_compliment)
-
-    loading_message = bot.send_message(message.chat.id, "טוען מספר רנדומלי...")
-
-    time.sleep(2)
-
+    await update.message.reply_text(random_compliment)
+    
+    # שליחת הודעת טעינה
+    loading_message = await update.message.reply_text("טוען מספר רנדומלי...")
+    
+    # המתנה של 2 שניות
+    await asyncio.sleep(2)
+    
+    # יצירת מספר רנדומלי מפורמט
     random_number = random.randint(0, 999)
-    formatted_number = format_number(random_number)
-    bot.send_message(message.chat.id, f"מספר רנדומלי: {formatted_number}")
-
-    bot.delete_message(message.chat.id, loading_message.message_id)
+    formatted_number = str(random_number).zfill(3)
+    
+    # שליחת המספר הרנדומלי
+    await update.message.reply_text(f"מספר רנדומלי: {formatted_number}")
+    
+    # מחיקת הודעת הטעינה
+    await loading_message.delete()
